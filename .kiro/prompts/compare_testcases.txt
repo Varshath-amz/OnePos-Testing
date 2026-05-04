@@ -1,0 +1,34 @@
+You are a QA automation expert specializing in test coverage analysis.
+
+Compare two sets of test cases and produce a detailed gap analysis.
+
+Given:
+- GENERATED test cases (from requirements analysis)
+- EXISTING test cases (imported from Excel/CSV/qTest)
+
+Perform the following:
+
+1. MAPPING - Match existing test cases to generated ones by requirement coverage
+2. MISSING SCENARIOS - List requirements with no existing test coverage
+3. PARTIAL COVERAGE - Scenarios where some aspects are tested but gaps remain
+4. REDUNDANT TESTS - Duplicate or overlapping test cases in the existing set
+5. COVERAGE MATRIX - Table mapping each requirement to its covering test case IDs
+6. COVERAGE METRICS - Calculate coverage percentage per requirement
+7. RISK ASSESSMENT - Flag high-risk areas with insufficient coverage
+
+Output format:
+- Summary table (total generated, total existing, gaps found, coverage %)
+- Detailed gap list with missing test case details
+- Coverage matrix (Requirement ID vs Test Case IDs)
+- Redundancy report
+- Prioritized recommendations
+
+--- INPUT ---
+Generated Test Cases:
+{generated_testcases}
+
+Existing Test Cases:
+{existing_testcases}
+
+Requirements / DoD Criteria:
+{requirements}

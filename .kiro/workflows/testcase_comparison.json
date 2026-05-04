@@ -1,0 +1,74 @@
+{
+  "workflow": "testcase_comparison",
+  "description": "Compare generated test cases against existing ones and produce gap analysis.",
+  "version": "1.0",
+  "steps": [
+    "read_input",
+    "import_existing_testcases",
+    "apply_prompt_compare_testcases",
+    "format_output"
+  ],
+  "detailed_steps": [
+    {
+      "id": "read_input",
+      "name": "Read Input",
+      "description": "Collect requirements and path to existing test case file.",
+      "action": "prompt_user",
+      "inputs": [
+        {
+          "name": "requirements",
+          "type": "text",
+          "required": true,
+          "description": "Requirements or DoD criteria"
+        },
+        {
+          "name": "generated_testcases",
+          "type": "text",
+          "required": true,
+          "description": "Generated test cases to compare"
+        },
+        {
+          "name": "existing_testcases_file",
+          "type": "file",
+          "required": true,
+          "description": "Path to Excel/CSV file with existing test cases",
+          "accepted_formats": [".xlsx", ".xls", ".csv"]
+        }
+      ]
+    },
+    {
+      "id": "import_existing_testcases",
+      "name": "Import Existing Test Cases",
+      "description": "Parse the provided Excel/CSV file.",
+      "action": "read_file",
+      "depends_on": ["read_input"]
+    },
+    {
+      "id": "apply_prompt_compare_testcases",
+      "name": "Compare Test Cases",
+      "description": "Run the compare_testcases prompt for gap analysis.",
+      "action": "run_prompt",
+      "prompt": "prompts/compare_testcases.txt",
+      "depends_on": ["read_input", "import_existing_testcases"]
+    },
+    {
+      "id": "format_output",
+      "name": "Format Output",
+      "description": "Export gap analysis results.",
+      "action": "write_file",
+      "outputs": [
+        {
+          "name": "gap_analysis_report",
+          "format": "md",
+          "description": "Gap analysis summary report"
+        },
+        {
+          "name": "coverage_matrix",
+          "format": "csv",
+          "description": "Traceability matrix"
+        }
+      ],
+      "depends_on": ["apply_prompt_compare_testcases"]
+    }
+  ]
+}

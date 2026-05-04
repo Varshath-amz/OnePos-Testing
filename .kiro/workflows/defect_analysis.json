@@ -1,0 +1,71 @@
+{
+  "workflow": "defect_analysis",
+  "description": "Analyze defect data to identify patterns, root causes, and test coverage gaps.",
+  "version": "1.0",
+  "steps": [
+    "read_input",
+    "apply_prompt_defect_analysis",
+    "format_output"
+  ],
+  "detailed_steps": [
+    {
+      "id": "read_input",
+      "name": "Read Input",
+      "description": "Collect defect data, related test cases, and sprint context.",
+      "action": "prompt_user",
+      "inputs": [
+        {
+          "name": "defect_data",
+          "type": "text",
+          "required": true,
+          "description": "Defect reports from Jira, qTest, or CSV"
+        },
+        {
+          "name": "related_testcases",
+          "type": "text",
+          "required": false,
+          "description": "Related test cases for correlation"
+        },
+        {
+          "name": "requirements",
+          "type": "text",
+          "required": false,
+          "description": "Requirements or DoD criteria"
+        },
+        {
+          "name": "sprint_context",
+          "type": "text",
+          "required": false,
+          "description": "Sprint or release context"
+        }
+      ]
+    },
+    {
+      "id": "apply_prompt_defect_analysis",
+      "name": "Analyze Defects",
+      "description": "Run the defect_analysis prompt.",
+      "action": "run_prompt",
+      "prompt": "prompts/defect_analysis.txt",
+      "depends_on": ["read_input"]
+    },
+    {
+      "id": "format_output",
+      "name": "Format Output",
+      "description": "Export defect analysis results.",
+      "action": "write_file",
+      "outputs": [
+        {
+          "name": "defect_report",
+          "format": "md",
+          "description": "Defect analysis report"
+        },
+        {
+          "name": "action_items",
+          "format": "csv",
+          "description": "Prioritized action items"
+        }
+      ],
+      "depends_on": ["apply_prompt_defect_analysis"]
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "workflow": "testcase_generation",
+  "description": "Generate comprehensive test cases from user stories and requirements.",
+  "version": "1.0",
+  "steps": [
+    "read_input",
+    "apply_prompt_generate_testcases",
+    "format_output"
+  ],
+  "detailed_steps": [
+    {
+      "id": "read_input",
+      "name": "Read Input",
+      "description": "Collect user story, acceptance criteria, DoD, and any additional context from the user.",
+      "action": "prompt_user",
+      "inputs": [
+        {
+          "name": "user_story",
+          "type": "text",
+          "required": true,
+          "description": "Jira user story or requirement text"
+        },
+        {
+          "name": "acceptance_criteria",
+          "type": "text",
+          "required": true,
+          "description": "Acceptance criteria or Definition of Done"
+        },
+        {
+          "name": "additional_context",
+          "type": "text",
+          "required": false,
+          "description": "Any extra context, constraints, or notes"
+        }
+      ]
+    },
+    {
+      "id": "apply_prompt_generate_testcases",
+      "name": "Generate Test Cases",
+      "description": "Run the generate_testcases prompt with collected inputs.",
+      "action": "run_prompt",
+      "prompt": "prompts/generate_testcases.txt",
+      "depends_on": ["read_input"]
+    },
+    {
+      "id": "format_output",
+      "name": "Format Output",
+      "description": "Format generated test cases as CSV and summary report.",
+      "action": "write_file",
+      "outputs": [
+        {
+          "name": "test_cases_csv",
+          "format": "csv",
+          "description": "Generated test cases in CSV format"
+        },
+        {
+          "name": "summary_report",
+          "format": "md",
+          "description": "Summary report with statistics"
+        }
+      ],
+      "depends_on": ["apply_prompt_generate_testcases"]
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+You are a QA automation expert.
+
+Generate test cases based on the given user story.
+
+Include:
+- Preconditions
+- Steps
+- Expected results
+
+For each test case, provide:
+- Test Case ID (format: TC-XXXX)
+- Title / Summary
+- Category (Functional / Non-Functional / Edge Case / Security / Performance / Regression)
+- Priority (High / Medium / Low)
+- Preconditions (what must be true before execution)
+- Test Steps (numbered, clear, and reproducible)
+- Expected Results (specific, measurable outcomes)
+- Mapped Requirement / DoD Criteria (traceability)
+
+Cover the following scenario types:
+1. POSITIVE - Happy path, standard user flows
+2. NEGATIVE - Invalid inputs, error handling, unauthorized access
+3. BOUNDARY - Min/max values, limits, thresholds
+4. INTEGRATION - Cross-component and cross-system interactions
+5. REGRESSION - Verify existing functionality is not broken
+6. DATA VALIDATION - Format, type, range, and constraint checks
+
+Output the test cases in a structured, CSV-compatible format.
+
+--- INPUT ---
+User Story / Requirement:
+{user_story}
+
+Acceptance Criteria:
+{acceptance_criteria}
+
+Additional Context:
+{additional_context}

@@ -1,0 +1,13 @@
+{
+  "agents": {
+    "onepos-testing": "agents/onepos-testing.md",
+    "onepos-testing-qa": "agents/onepos-testing-qa.md"
+  },
+  "defaultAgent": "onepos-testing-qa",
+  "defaultWorkflow": "testcase_generation",
+  "outputDirectory": "./output",
+  "settings": {
+    "output_format": "csv",
+    "default_priority": "Medium"
+  }
+}
