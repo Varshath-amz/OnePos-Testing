@@ -1,0 +1,5 @@
+Test Case ID,PID,Name,Description,Precondition,Status,Test Type,Test Priority,Designer,Type,Automation,Touch Point,Testing Area,External ID,Requirement ID
+84964427,TC-23171,SCO- selling a gift card,,,Draft,Integration Regression,3-Moderate,Bhargavi Botta,Manual,No,SCO,,,
+84964412,TC-23170,QSR- selling a gift card,,,Draft,Integration Regression,3-Moderate,Bhargavi Botta,Manual,No,QSR,,,
+84964534,TC-23172,POS-selling a gift card,,,Draft,Integration Regression,3-Moderate,Bhargavi Botta,Manual,No,POS,,,
+84963990,TC-23169,QSR-OTC- selling gift card,,,Draft,Integration Regression,3-Moderate,Bhargavi Botta,Manual,No,QSR,,,

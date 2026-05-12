@@ -1,3 +1,21 @@
 {
-  "mcpServers": {}
+  "mcpServers": {
+    "qtest": {
+      "command": "C:\\Users\\vaviveka\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+      "args": [".kiro/mcp/qtest-mcp-server/server.py"],
+      "env": {
+        "QTEST_BASE_URL": "https://wfm.qtestnet.com",
+        "QTEST_TOKEN": "82cd172c-a5c9-4ea7-b6e0-6d197e8f8d85",
+        "QTEST_PROJECT_ID": "96767"
+      },
+      "disabled": false,
+      "autoApprove": [
+        "list_projects",
+        "get_test_case_fields",
+        "list_modules",
+        "get_test_cases",
+        "get_test_case_detail"
+      ]
+    }
+  }
 }

@@ -1,0 +1,13 @@
+# Environment files with secrets
+.env
+*.env
+
+# MCP settings with tokens (use mcp.json.template as reference)
+.kiro/settings/mcp.json
+
+# Python
+__pycache__/
+*.pyc
+
+# Output files (generated locally)
+output/

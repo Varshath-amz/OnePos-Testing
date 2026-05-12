@@ -1,0 +1,27 @@
+{
+  "mcpServers": {
+    "qtest": {
+      "command": "python",
+      "args": [".kiro/mcp/qtest-mcp-server/server.py"],
+      "env": {
+        "QTEST_BASE_URL": "https://YOUR_SITE.qtestnet.com",
+        "QTEST_TOKEN": "YOUR_API_TOKEN_HERE",
+        "QTEST_PROJECT_ID": "YOUR_PROJECT_ID"
+      },
+      "disabled": false,
+      "autoApprove": [
+        "list_projects",
+        "get_test_case_fields",
+        "list_modules",
+        "get_test_cases",
+        "get_test_case_detail"
+      ]
+    },
+    "builder-mcp": {
+      "command": "builder-mcp",
+      "args": ["--include-tools", "*Taskei*"],
+      "disabled": false,
+      "autoApprove": []
+    }
+  }
+}
