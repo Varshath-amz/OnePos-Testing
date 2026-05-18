@@ -1,6 +1,5 @@
 {
   "agents": {
-    "onepos-testing": "agents/onepos-testing.md",
     "onepos-testing-qa": "agents/onepos-testing-qa.md"
   },
   "defaultAgent": "onepos-testing-qa",

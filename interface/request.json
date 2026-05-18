@@ -1,0 +1,23 @@
+{
+  "action": "full_pipeline",
+  "timestamp": "2026-05-14T11:10:33.812Z",
+  "ticket_id": "NCRVIntake-23",
+  "manual_story": "",
+  "manual_dod": "",
+  "target_module_id": "56002030",
+  "target_module_name": "Test cases - K",
+  "create_submodule": true,
+  "submodule_name": "SCO Organic Search Filter (UI)",
+  "settings": {
+    "prefix": "SCO-General Sale-",
+    "test_priority": "1-Critical",
+    "touch_point": "SCO",
+    "designer": "Varshath Vivekanandhan",
+    "type": "Manual",
+    "test_type": "Integration Regression",
+    "testing_area": "General Sale",
+    "automation_status": "Will Not Automate",
+    "requirement_id": "NCRVIntake-23",
+    "reason_not_automating": ""
+  }
+}

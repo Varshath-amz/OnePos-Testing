@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OnePos Testing - Test Case Design</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'DM Sans', sans-serif; background: #faf7f2; color: #2d3b2d; min-height: 100vh;
+            background-image: 
+                radial-gradient(ellipse at 10% 20%, rgba(76,175,80,0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 90% 80%, rgba(139,195,74,0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(46,125,50,0.03) 0%, transparent 70%),
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600' viewBox='0 0 600 600'%3E%3Cg opacity='0.05' fill='%232e7d32'%3E%3Cpath d='M80 120c10-20 30-30 50-25s30 25 20 45-30 30-50 25-30-25-20-45z'/%3E%3Cpath d='M450 80c8-15 25-22 40-18s22 20 14 35-25 22-40 18-22-20-14-35z'/%3E%3Cpath d='M200 450c12-22 35-32 55-26s32 28 20 50-35 32-55 26-32-28-20-50z'/%3E%3Cpath d='M520 400c6-12 20-18 32-14s18 16 12 28-20 18-32 14-18-16-12-28z'/%3E%3Cpath d='M100 350c8-16 24-24 38-20s24 18 16 34-24 24-38 20-24-18-16-34z'/%3E%3Cpath d='M350 250c10-18 28-26 44-22s26 22 16 40-28 26-44 22-26-22-16-40z'/%3E%3Ccircle cx='300' cy='500' r='8'/%3E%3Ccircle cx='150' cy='200' r='5'/%3E%3Ccircle cx='500' cy='250' r='6'/%3E%3Ccircle cx='400' cy='550' r='4'/%3E%3Ccircle cx='50' cy='500' r='5'/%3E%3Cpath d='M280 100 Q290 80 300 100 Q310 80 320 100' fill='none' stroke='%232e7d32' stroke-width='1.5'/%3E%3Cpath d='M480 480 Q490 460 500 480 Q510 460 520 480' fill='none' stroke='%232e7d32' stroke-width='1.5'/%3E%3Cpath d='M60 420 Q70 400 80 420 Q90 400 100 420' fill='none' stroke='%232e7d32' stroke-width='1.5'/%3E%3Cpath d='M380 150 Q390 130 400 150 Q410 130 420 150' fill='none' stroke='%232e7d32' stroke-width='1.5'/%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 40%, #388e3c 70%, #43a047 100%);
+            padding: 18px 40px;
+            display: flex; align-items: center; justify-content: space-between;
+            box-shadow: 0 4px 20px rgba(27,94,32,0.3);
+        }
+        .header .title-area { display: flex; align-items: center; gap: 14px; }
+        .header .logo-circle {
+            width: 42px; height: 42px; border-radius: 50%; background: rgba(255,255,255,0.15);
+            display: flex; align-items: center; justify-content: center;
+            border: 2px solid rgba(255,255,255,0.3); backdrop-filter: blur(4px);
+        }
+        .header .logo-circle svg { width: 24px; height: 24px; }
+        .header h1 { font-size: 20px; color: #fff; font-weight: 600; letter-spacing: -0.3px; }
+        .header .badges { display: flex; gap: 8px; }
+        .header .badge {
+            padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 500;
+            background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3);
+            backdrop-filter: blur(4px);
+        }
+
+        /* Container */
+        .container { max-width: 920px; margin: 32px auto; padding: 0 20px; }
+
+        /* Cards */
+        .card {
+            background: #fff; border-radius: 14px; padding: 28px; margin-bottom: 20px;
+            border: 1px solid #e0d8cc;
+            box-shadow: 0 2px 8px rgba(45,59,45,0.04);
+            transition: box-shadow 0.2s;
+        }
+        .card:hover { box-shadow: 0 4px 16px rgba(45,59,45,0.08); }
+        .card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; }
+        .card-header .icon {
+            width: 38px; height: 38px; border-radius: 10px; display: flex;
+            align-items: center; justify-content: center; font-size: 16px;
+        }
+        .card-header .icon.green { background: #e8f0e4; color: #3d6b4f; }
+        .card-header .icon.blue { background: #e4ecf0; color: #3d5a6b; }
+        .card-header .icon.purple { background: #f0e4ec; color: #6b3d5a; }
+        .card-header h2 { font-size: 17px; font-weight: 600; color: #1a3a2a; }
+        .card-header p { font-size: 12px; color: #7a8a7a; margin-top: 2px; }
+
+        /* Form */
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .form-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+        .form-group { display: flex; flex-direction: column; gap: 6px; }
+        .form-group.full-width { grid-column: 1 / -1; }
+        .form-group label { font-size: 12px; color: #2d3b2d; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; }
+        .form-group input, .form-group select, .form-group textarea {
+            background: #faf7f2; border: 1.5px solid #d4cdc2; border-radius: 10px;
+            padding: 11px 14px; color: #2d3b2d; font-size: 14px; font-family: 'DM Sans', sans-serif;
+            outline: none; transition: all 0.2s;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: #4a7c59; box-shadow: 0 0 0 3px rgba(74,124,89,0.1); background: #fff;
+        }
+        .form-group input::placeholder, .form-group textarea::placeholder { color: #a8a090; }
+        .form-group textarea { min-height: 60px; resize: vertical; }
+        .form-group select { cursor: pointer; }
+
+        /* Checkbox */
+        .checkbox-row { display: flex; align-items: center; gap: 10px; margin-top: 4px; }
+        .checkbox-row input[type="checkbox"] {
+            width: 18px; height: 18px; accent-color: #4a7c59; cursor: pointer;
+        }
+        .checkbox-row label { font-size: 13px; color: #5a6b5a; cursor: pointer; font-weight: 400; text-transform: none; letter-spacing: 0; }
+
+        /* Button */
+        .btn-primary {
+            width: 100%; margin-top: 24px; padding: 15px 24px; border: none; border-radius: 12px;
+            cursor: pointer; font-size: 15px; font-weight: 600; font-family: 'DM Sans', sans-serif;
+            background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 40%, #388e3c 70%, #43a047 100%);
+            color: #fff; transition: all 0.2s; letter-spacing: -0.2px;
+            box-shadow: 0 4px 14px rgba(27,94,32,0.3);
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(27,94,32,0.4); }
+        .btn-primary:active { transform: translateY(0); }
+
+        /* Status */
+        .status-box {
+            padding: 14px 18px; border-radius: 10px; margin-top: 16px; font-size: 13px;
+            display: none; line-height: 1.6;
+        }
+        .status-box.show { display: block; }
+        .status-box.success { background: #e8f0e4; color: #1a3a2a; border: 1px solid #a8c5a0; }
+        .status-box.info { background: #f5f0e8; color: #5a4a3a; border: 1px solid #d4cdc2; }
+
+        /* Footer */
+        .footer-note {
+            text-align: center; margin-top: 24px; font-size: 12px; color: #a8a090;
+            padding: 16px;
+        }
+        .footer-note b { color: #5a6b5a; }
+
+        .submodule-input { margin-top: 14px; }
+        .hidden { display: none !important; }
+
+        @media (max-width: 768px) {
+            .form-grid, .form-grid-3 { grid-template-columns: 1fr; }
+            .header { padding: 16px 20px; }
+            .container { padding: 0 12px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="title-area">
+            <div class="logo-circle">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="rgba(255,255,255,0.2)"/>
+                    <path d="M8 12c0-2.2 1.8-4 4-4s4 1.8 4 4-1.8 4-4 4-4-1.8-4-4z" fill="none" stroke="#fff" stroke-width="1.5"/>
+                    <path d="M12 6v12M6 12h12" stroke="rgba(255,255,255,0.5)" stroke-width="0.8"/>
+                    <path d="M7 9c1.5-2 3-3 5-3s3.5 1 5 3" fill="none" stroke="#a5d6a7" stroke-width="1.2"/>
+                    <path d="M7 15c1.5 2 3 3 5 3s3.5-1 5-3" fill="none" stroke="#a5d6a7" stroke-width="1.2"/>
+                </svg>
+            </div>
+            <h1>OnePos Testing - Test Case Design</h1>
+        </div>
+        <div class="badges">
+            <span class="badge">Taskei</span>
+            <span class="badge">qTest</span>
+            <span class="badge">Kiro</span>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Source Card -->
+        <div class="card">
+            <div class="card-header">
+                <div class="icon green">&#9881;</div>
+                <div><h2>Source</h2><p>Fetch from Taskei or enter requirements manually</p></div>
+            </div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Input Mode</label>
+                    <select id="input-mode" onchange="toggleInputMode()">
+                        <option value="taskei">From Taskei (auto-fetch)</option>
+                        <option value="manual">Manual Input</option>
+                    </select>
+                </div>
+                <div class="form-group" id="taskei-id-group">
+                    <label>Taskei Ticket ID</label>
+                    <input type="text" id="ticket-id" placeholder="e.g., NCRVIntake-23">
+                </div>
+            </div>
+            <!-- Manual Input Section -->
+            <div id="manual-input-section" class="hidden" style="margin-top:16px;">
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label>User Story / Requirement</label>
+                        <textarea id="manual-story" placeholder="Paste your user story or feature requirement here..." style="min-height:80px;"></textarea>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Definition of Done / Acceptance Criteria</label>
+                        <textarea id="manual-dod" placeholder="Paste DoD items here. Use **DOD 1:** format for multiple items, or numbered steps..." style="min-height:120px;"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="form-grid" style="margin-top:16px;">
+                <div class="form-group">
+                    <label>qTest Parent Module</label>
+                    <select id="target-module">
+                        <option value="56002030">Test cases - K</option>
+                        <option value="7268619">1 - OnePos Main</option>
+                        <option value="7596638">4 - Scrum Team Functional</option>
+                        <option value="8123443">6 - Critical Path Payments</option>
+                        <option value="56105499">SCO Organic search filter (UI)</option>
+                    </select>
+                </div>
+                <div class="form-group">&nbsp;</div>
+            </div>
+            <div class="submodule-input">
+                <div class="checkbox-row">
+                    <input type="checkbox" id="create-submodule">
+                    <label for="create-submodule">Create a sub-module inside parent</label>
+                </div>
+                <div id="submodule-group" class="hidden" style="margin-top:12px;">
+                    <div class="form-group">
+                        <label>Sub-Module Name</label>
+                        <input type="text" id="submodule-name" placeholder="e.g., Organic Search Filter (UI)">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Card -->
+        <div class="card">
+            <div class="card-header">
+                <div class="icon blue">&#9998;</div>
+                <div><h2>Test Case Settings</h2><p>Configure custom fields for generated test cases</p></div>
+            </div>
+            <div class="form-grid-3">
+                <div class="form-group">
+                    <label>Title Prefix</label>
+                    <input type="text" id="prefix" value="POS-">
+                </div>
+                <div class="form-group">
+                    <label>Test Priority</label>
+                    <select id="priority">
+                        <option value="1-Critical">1-Critical</option>
+                        <option value="2-Major">2-Major</option>
+                        <option value="3-Moderate" selected>3-Moderate</option>
+                        <option value="4-Minor">4-Minor</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Touch Point</label>
+                    <select id="touchpoint">
+                        <option value="POS">POS</option>
+                        <option value="QSR">QSR</option>
+                        <option value="SCO">SCO</option>
+                        <option value="AO">AO</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Designer</label>
+                    <select id="designer">
+                        <option value="Varshath Vivekanandhan">Varshath Vivekanandhan</option>
+                        <option value="Swati Kulkarni">Swati Kulkarni</option>
+                        <option value="Sri Preethi Ms">Sri Preethi Ms</option>
+                        <option value="Nhu Ly">Nhu Ly</option>
+                        <option value="Andres Mijares">Andres Mijares</option>
+                        <option value="Ana Castillo">Ana Castillo</option>
+                        <option value="Anagha Joshi">Anagha Joshi</option>
+                        <option value="Arun Rao">Arun Rao</option>
+                        <option value="Bharathi Maheedhara">Bharathi Maheedhara</option>
+                        <option value="Chaitanya Bhat">Chaitanya Bhat</option>
+                        <option value="Chris Hanly">Chris Hanly</option>
+                        <option value="Cody Kelso">Cody Kelso</option>
+                        <option value="Gracian Benjamin">Gracian Benjamin</option>
+                        <option value="Hemalatha Gollapalli">Hemalatha Gollapalli</option>
+                        <option value="Jordan Huss">Jordan Huss</option>
+                        <option value="Kristin Tanzillo">Kristin Tanzillo</option>
+                        <option value="Mark Brizendine">Mark Brizendine</option>
+                        <option value="Nabeel Nasir">Nabeel Nasir</option>
+                        <option value="Nerissa Bautista">Nerissa Bautista</option>
+                        <option value="Pamela Champagne">Pamela Champagne</option>
+                        <option value="Praveena Kollipara">Praveena Kollipara</option>
+                        <option value="Sai Keerthana Gajula">Sai Keerthana Gajula</option>
+                        <option value="Sampreet Hiremath">Sampreet Hiremath</option>
+                        <option value="Sherwin Maher">Sherwin Maher</option>
+                        <option value="Sushmitha Kl">Sushmitha Kl</option>
+                        <option value="Varuna Dharshini Ramesh">Varuna Dharshini Ramesh</option>
+                        <option value="QA Tools Support">QA Tools Support</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Type</label>
+                    <select id="type">
+                        <option value="Manual">Manual</option>
+                        <option value="Automation">Automation</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Test Type</label>
+                    <select id="test-type">
+                        <option value="Integration Regression">Integration Regression</option>
+                        <option value="Integration Progression">Integration Progression</option>
+                        <option value="Functional">Functional</option>
+                        <option value="Progression">Progression</option>
+                        <option value="Regression">Regression</option>
+                        <option value="Sanity">Sanity</option>
+                        <option value="Assembly">Assembly</option>
+                        <option value="Non Functional-Other">Non Functional-Other</option>
+                        <option value="Non Functional-Performance">Non Functional-Performance</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Testing Area</label>
+                    <select id="testing-area">
+                        <option value="">-- Select --</option>
+                        <option value="General Sale">General Sale</option>
+                        <option value="Payments">Payments</option>
+                        <option value="Gift Card">Gift Card</option>
+                        <option value="QSR">QSR</option>
+                        <option value="Receipt">Receipt</option>
+                        <option value="Returns">Returns</option>
+                        <option value="Promotion">Promotion</option>
+                        <option value="Tax">Tax</option>
+                        <option value="User Interface">User Interface</option>
+                        <option value="eWIC">eWIC</option>
+                        <option value="House Account">House Account</option>
+                        <option value="Cash Office">Cash Office</option>
+                        <option value="Cash Management">Cash Management</option>
+                        <option value="Amazon">Amazon</option>
+                        <option value="Picklist">Picklist</option>
+                        <option value="Offline">Offline</option>
+                        <option value="mPOS">mPOS</option>
+                        <option value="Integration - DW">Integration - DW</option>
+                        <option value="Integration - Sales Audit">Integration - Sales Audit</option>
+                        <option value="Integration - IRMA">Integration - IRMA</option>
+                        <option value="Side Card">Side Card</option>
+                        <option value="Scanner">Scanner</option>
+                        <option value="Eclipse">Eclipse</option>
+                        <option value="ICD">ICD</option>
+                        <option value="Tips">Tips</option>
+                        <option value="TM Intervention">TM Intervention</option>
+                        <option value="Roles">Roles</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Automation Status</label>
+                    <select id="auto-status">
+                        <option value="">-- Not Set --</option>
+                        <option value="Ready for Automation">Ready for Automation</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Automated">Automated</option>
+                        <option value="Will Not Automate">Will Not Automate</option>
+                        <option value="Pending for Clarification">Pending for Clarification</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Requirement ID</label>
+                    <input type="text" id="req-id" placeholder="Auto-fills from Taskei ID">
+                </div>
+                <div class="form-group">
+                    <label>Reason for not automating</label>
+                    <input type="text" id="reason-not-automating" placeholder="e.g., Requires physical hardware">
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Button -->
+        <button class="btn-primary" onclick="generateAndCreate()">
+            Generate Test Cases & Create in qTest
+        </button>
+
+        <div id="status" class="status-box"></div>
+
+        <div class="footer-note">
+            Save the file to <b>OnePos-Testing/interface/</b> then click <b>Run Test Case Pipeline</b> hook in Kiro.
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('create-submodule').addEventListener('change', function() {
+            document.getElementById('submodule-group').classList.toggle('hidden', !this.checked);
+        });
+
+        function toggleInputMode() {
+            const mode = document.getElementById('input-mode').value;
+            document.getElementById('taskei-id-group').classList.toggle('hidden', mode === 'manual');
+            document.getElementById('manual-input-section').classList.toggle('hidden', mode === 'taskei');
+        }
+
+        async function generateAndCreate() {
+            const mode = document.getElementById('input-mode').value;
+            const ticketId = document.getElementById('ticket-id').value;
+            const manualDod = document.getElementById('manual-dod').value;
+
+            if (mode === 'taskei' && !ticketId) { alert('Enter a Taskei Ticket ID'); return; }
+            if (mode === 'manual' && !manualDod) { alert('Enter requirements/DoD in the text box'); return; }
+
+            const createSubmodule = document.getElementById('create-submodule').checked;
+            const submoduleName = document.getElementById('submodule-name').value;
+            if (createSubmodule && !submoduleName) { alert('Enter a sub-module name'); return; }
+
+            const request = {
+                action: mode === 'taskei' ? 'full_pipeline' : 'manual_pipeline',
+                timestamp: new Date().toISOString(),
+                ticket_id: ticketId || '',
+                manual_story: document.getElementById('manual-story').value || '',
+                manual_dod: manualDod || '',
+                target_module_id: document.getElementById('target-module').value,
+                target_module_name: document.getElementById('target-module').selectedOptions[0].text,
+                create_submodule: createSubmodule,
+                submodule_name: submoduleName || '',
+                settings: {
+                    prefix: document.getElementById('prefix').value,
+                    test_priority: document.getElementById('priority').value,
+                    touch_point: document.getElementById('touchpoint').value,
+                    designer: document.getElementById('designer').value,
+                    type: document.getElementById('type').value,
+                    test_type: document.getElementById('test-type').value,
+                    testing_area: document.getElementById('testing-area').value,
+                    automation_status: document.getElementById('auto-status').value,
+                    requirement_id: document.getElementById('req-id').value || ticketId,
+                    reason_not_automating: document.getElementById('reason-not-automating').value
+                }
+            };
+
+            const blob = new Blob([JSON.stringify(request, null, 2)], { type: 'application/json' });
+            const statusEl = document.getElementById('status');
+
+            if (window.showSaveFilePicker) {
+                try {
+                    const handle = await window.showSaveFilePicker({
+                        suggestedName: 'request.json',
+                        types: [{ description: 'JSON', accept: { 'application/json': ['.json'] } }]
+                    });
+                    const writable = await handle.createWritable();
+                    await writable.write(blob);
+                    await writable.close();
+                    statusEl.className = 'status-box show success';
+                    statusEl.innerHTML = '<strong>Request saved!</strong> Now click the <strong>Run Test Case Pipeline</strong> hook button in Kiro to execute.';
+                    return;
+                } catch(e) { if (e.name === 'AbortError') return; }
+            }
+
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = 'request.json'; a.click();
+            URL.revokeObjectURL(url);
+            statusEl.className = 'status-box show info';
+            statusEl.innerHTML = 'Save the file to <strong>OnePos-Testing/interface/</strong> then trigger the hook in Kiro.';
+        }
+    </script>
+</body>
+</html>
