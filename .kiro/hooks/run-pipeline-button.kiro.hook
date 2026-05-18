@@ -1,0 +1,14 @@
+{
+  "enabled": true,
+  "name": "Run Test Case Pipeline",
+  "description": "Runs the full pipeline: reads request.json, fetches from Taskei, creates sub-module if needed, and generates test cases in qTest.",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "runCommand",
+    "command": "python interface/pipeline.py",
+    "timeout": 60
+  }
+}
